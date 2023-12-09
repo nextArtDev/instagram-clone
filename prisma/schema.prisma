@@ -6,6 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  phone    String @unique
+  name     String
+  password String @db.Text
+
+  image String?
+
+  // role             Role      @default(USER)
+  isVerified       Boolean   @default(false)
+  verificationCode Int?
+  verificationDate DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
