@@ -9,7 +9,6 @@ function DashboardPage() {
         {/* <Suspense fallback={<PostsSkeleton />}>
           <Posts />
         </Suspense> */}
-        <p className="text-5xl">برای تست فونت</p>
       </div>
     </main>
   )

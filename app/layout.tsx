@@ -30,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir="rtl" suppressHydrationWarning>
-      <body className={`${Kaghaz.className}`}>
+      <body className={`${SnapWebReg.className}`}>
         <ReactQueryProvider>
           <ThemeProvider
             attribute="class"

@@ -76,9 +76,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // token:when ever the user tries to get the session, adding id to user, so we can access it on the front-end
     async session({ session, token }) {
-      //   session.user.id = token.id
-      //   session.user.name = token.name
-      // session.user.phone = token.phone
+      session.user.id = token.id
+      session.user.name = token.name
+      session.user.phone = token.phone
 
       return session
     },

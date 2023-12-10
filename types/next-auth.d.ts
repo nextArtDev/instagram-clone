@@ -67,11 +67,11 @@ export type SafeUser = Omit<
   User,
   'createdAt',
   'updatedAt',
-  'verified',
-  'role'
+  'verified'
+  // 'role'
 > & {
   createdAt: string
   updatedAt: string
   verified: boolean
-  role: string
+  // role: string
 }
