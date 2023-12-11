@@ -1,9 +1,9 @@
-// import Header from "@/components/Header";
+import Header from '@/components/share/Header'
 
 function HomePageLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
       {children}
     </div>
   )

@@ -15,6 +15,7 @@ import {
   SnapWebReg,
   primaryFont,
 } from '@/lib/fonts'
+import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,6 +40,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster richColors />
           </ThemeProvider>
         </ReactQueryProvider>
       </body>
