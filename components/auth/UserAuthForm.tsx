@@ -85,10 +85,12 @@ export function UserAuthForm() {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>شماره موبایل</FormLabel>
+              <FormLabel>
+                شماره موبایل<span className="text-red-400">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="09130000000"
+                  // placeholder="09130000000"
                   {...field}
                   className="placeholder:text-gray-400"
                 />
@@ -104,19 +106,22 @@ export function UserAuthForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>رمز عبور</FormLabel>
+              <FormLabel>
+                رمز عبور<span className="text-red-400">*</span>
+              </FormLabel>
               <FormControl>
-                <Input type="password" placeholder="*********" {...field} />
+                <Input
+                  type="password"
+                  //  placeholder="*********"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="bg-blue-950 hover:bg-gray-gradient hover:text-blue-950 "
-        >
+        <Button type="submit" className="">
           ورود
         </Button>
       </form>

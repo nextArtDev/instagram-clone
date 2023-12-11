@@ -65,6 +65,7 @@ export const authOptions: NextAuthOptions = {
           phone: existingUser.phone,
           name: existingUser.name,
           isVerified: existingUser.isVerified,
+          role: existingUser.role,
         }
       },
     }),
@@ -79,6 +80,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.id
       session.user.name = token.name
       session.user.phone = token.phone
+      session.user.role = token.role
 
       return session
     },

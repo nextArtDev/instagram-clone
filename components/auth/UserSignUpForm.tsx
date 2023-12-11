@@ -135,13 +135,15 @@ export function UserSignUpForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>نام و نام خانوادگی</FormLabel>
+              <FormLabel>
+                نام و نام خانوادگی <span className="text-red-400">*</span>{' '}
+              </FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
-              <FormDescription className="text-white/50">
+              {/* <FormDescription className="text-white/50">
                 نام و نام خانوادگی خود را وارد کنید.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -151,17 +153,19 @@ export function UserSignUpForm() {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>شماره موبایل</FormLabel>
+              <FormLabel>
+                شماره موبایل<span className="text-red-400">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="09130000000"
+                  // placeholder="09130000000"
                   {...field}
                   className="placeholder:text-gray-400"
                 />
               </FormControl>
               <FormDescription className="text-white/50">
                 {/* شماره شما نمایش داده نمی‌شود. */}
-                <p className="text-blue-700">
+                <p className="text-rose-900">
                   کد تایید به این شماره ارسال خواهد شد.
                 </p>
               </FormDescription>
@@ -174,22 +178,24 @@ export function UserSignUpForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>رمز عبور</FormLabel>
+              <FormLabel>
+                رمز عبور<span className="text-red-400">*</span>
+              </FormLabel>
               <FormControl>
-                <Input type="password" placeholder="********" {...field} />
+                <Input
+                  type="password"
+                  // placeholder="********"
+                  {...field}
+                />
               </FormControl>
               <FormDescription className="text-white/50">
-                از حروف بزرگ، کوچک واعداد برای رمز عبور استفاده کنید.
+                از حروف بزرگ، کوچک و اعداد برای رمز عبور استفاده کنید.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="bg-blue-950 hover:bg-blue-500 hover:text-white "
-        >
+        <Button type="submit" disabled={isLoading} className="  ">
           ارسال کد تایید به شماره موبایل
         </Button>
       </form>

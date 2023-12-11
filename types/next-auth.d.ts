@@ -41,12 +41,14 @@
 import type { Session, User } from 'next-auth'
 import type { JWT } from 'next-auth/jwt'
 
+type Role = { ADMIN; USER }
 declare module 'next-auth/jwt' {
   interface JWT {
     id: string
     phone: string
     name: string
     isVerified: string
+    role: Role
   }
 }
 
@@ -56,6 +58,7 @@ declare module 'next-auth' {
       id: string
       name: string
       phone: string
+      role: Role
     }
     // user: {
     //   id: string
@@ -73,5 +76,5 @@ export type SafeUser = Omit<
   createdAt: string
   updatedAt: string
   verified: boolean
-  // role: string
+  role: string
 }

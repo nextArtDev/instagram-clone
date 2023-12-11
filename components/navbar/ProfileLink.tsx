@@ -10,8 +10,9 @@ import { SafeUser } from '@/types/next-auth'
 
 function ProfileLink({ user }: SafeUser) {
   const pathname = usePathname()
+  // if (!user) return // I add
 
-  const href = `/social/${user.name}`
+  const href = `/social/${user.id}`
   const isActive = pathname === href
 
   return (
@@ -19,7 +20,7 @@ function ProfileLink({ user }: SafeUser) {
       href={href}
       className={buttonVariants({
         variant: isActive ? 'secondary' : 'ghost',
-        className: 'navLink',
+        className: 'md:navLink',
         size: 'lg',
       })}
     >

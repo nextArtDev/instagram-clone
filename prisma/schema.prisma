@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id       String @id @default(cuid())
   phone    String @unique
@@ -18,7 +23,7 @@ model User {
 
   image String?
 
-  // role             Role      @default(USER)
+  role             Role      @default(USER)
   isVerified       Boolean   @default(false)
   verificationCode Int?
   verificationDate DateTime?

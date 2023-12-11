@@ -28,7 +28,7 @@ export async function getCurrentUser() {
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
       verified: currentUser.isVerified,
-      // role: currentUser.role,
+      role: currentUser.role,
     }
   } catch (error) {}
 }
