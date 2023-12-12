@@ -5,7 +5,15 @@ import { getCurrentUser } from '../getCurrentUser'
 import { prisma } from '../prisma'
 import { redirect } from 'next/navigation'
 import axios from 'axios'
-import { DeletePost } from '../schemas'
+import {
+  BookmarkSchema,
+  CreateComment,
+  DeleteComment,
+  DeletePost,
+  LikeSchema,
+  UpdatePost,
+} from '../schemas'
+import { z } from 'zod'
 
 interface CreatePostParams {
   caption?: string
@@ -67,4 +75,266 @@ export async function deletePost(formData: FormData) {
       message: 'مشکلی پیش آمده، لطفا دوباره امتحان کنید.',
     }
   }
+}
+
+export async function likePost(value: FormDataEntryValue | null) {
+  // const userId = await getUserId()
+  const user = await getCurrentUser()
+  if (!user) return
+  const userId = user.id
+
+  const validatedFields = LikeSchema.safeParse({ postId: value })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'خطا، لایک ناموفق!',
+    }
+  }
+
+  const { postId } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('پست پیدا نشد!')
+  }
+
+  const like = await prisma.like.findUnique({
+    where: {
+      postId_userId: {
+        postId,
+        userId,
+      },
+    },
+  })
+
+  if (like) {
+    try {
+      await prisma.like.delete({
+        where: {
+          postId_userId: {
+            postId,
+            userId,
+          },
+        },
+      })
+      revalidatePath('/social')
+      return { message: 'لایک برداشته شد.' }
+    } catch (error) {
+      return { message: 'خطا در شبکه!' }
+    }
+  }
+
+  try {
+    await prisma.like.create({
+      data: {
+        postId,
+        userId,
+      },
+    })
+    return { message: 'پست لایک شد.' }
+  } catch (error) {
+    return { message: 'خطای شبکه، لطفا دوباره امتحان کنید!' }
+  } finally {
+    revalidatePath('/social')
+  }
+}
+
+export async function bookmarkPost(value: FormDataEntryValue | null) {
+  // const userId = await getUserId()
+  const user = await getCurrentUser()
+  if (!user) return
+  const userId = user.id
+
+  const validatedFields = BookmarkSchema.safeParse({ postId: value })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Bookmark Post.',
+    }
+  }
+
+  const { postId } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('Post not found.')
+  }
+
+  const bookmark = await prisma.savedPost.findUnique({
+    where: {
+      postId_userId: {
+        postId,
+        userId,
+      },
+    },
+  })
+
+  if (bookmark) {
+    try {
+      await prisma.savedPost.delete({
+        where: {
+          postId_userId: {
+            postId,
+            userId,
+          },
+        },
+      })
+      revalidatePath('/social')
+      return { message: 'Unbookmarked Post.' }
+    } catch (error) {
+      return {
+        message: 'Database Error: Failed to Unbookmark Post.',
+      }
+    }
+  }
+
+  try {
+    await prisma.savedPost.create({
+      data: {
+        postId,
+        userId,
+      },
+    })
+    revalidatePath('/social')
+    return { message: 'Bookmarked Post.' }
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Bookmark Post.',
+    }
+  }
+}
+
+export async function createComment(values: z.infer<typeof CreateComment>) {
+  // const userId = await getUserId()
+  const user = await getCurrentUser()
+  if (!user) return
+  const userId = user.id
+
+  const validatedFields = CreateComment.safeParse(values)
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Comment.',
+    }
+  }
+
+  const { postId, body } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  try {
+    await prisma.comment.create({
+      data: {
+        body,
+        postId,
+        userId,
+      },
+    })
+    revalidatePath('/social')
+    return { message: 'Created Comment.' }
+  } catch (error) {
+    return { message: 'Database Error: Failed to Create Comment.' }
+  }
+}
+
+export async function deleteComment(formData: FormData) {
+  // const userId = await getUserId()
+  const user = await getCurrentUser()
+  if (!user) return
+  const userId = user.id
+
+  const { id } = DeleteComment.parse({
+    id: formData.get('id'),
+  })
+
+  const comment = await prisma.comment.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  })
+
+  if (!comment) {
+    throw new Error('Comment not found')
+  }
+
+  try {
+    await prisma.comment.delete({
+      where: {
+        id,
+      },
+    })
+    revalidatePath('/social')
+    return { message: 'Deleted Comment.' }
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Comment.' }
+  }
+}
+
+export async function updatePost(values: z.infer<typeof UpdatePost>) {
+  // const userId = await getUserId()
+  const user = await getCurrentUser()
+  if (!user) return
+  const userId = user.id
+
+  const validatedFields = UpdatePost.safeParse(values)
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Post.',
+    }
+  }
+
+  // const { id, fileUrl, caption } = validatedFields.data
+  const { id, caption } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  try {
+    await prisma.post.update({
+      where: {
+        id,
+      },
+      data: {
+        // fileUrl,
+        caption,
+      },
+    })
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Post.' }
+  }
+
+  revalidatePath('/social')
+  redirect('/social')
 }

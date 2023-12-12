@@ -7,6 +7,7 @@ import { useOptimistic } from 'react'
 
 import { PostWithExtras } from '@/types/definitions'
 import ActionIcon from '../ActionIcon'
+import { likePost } from '@/lib/actions/post.action'
 
 function LikeButton({
   post,
@@ -34,7 +35,7 @@ function LikeButton({
           const postId = formData.get('postId')
           addOptimisticLike({ postId, userId })
 
-          // await likePost(postId)
+          await likePost(postId)
         }}
       >
         <input type="hidden" name="postId" value={post.id} />
@@ -50,7 +51,8 @@ function LikeButton({
       {optimisticLikes.length > 0 && (
         <p className="text-sm font-bold dark:text-white">
           {optimisticLikes.length}{' '}
-          {optimisticLikes.length === 1 ? 'like' : 'likes'}
+          {/* {optimisticLikes.length === 1 ? 'like' : 'likes'} */}
+          لایک
         </p>
       )}
     </div>
