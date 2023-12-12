@@ -1,6 +1,7 @@
 import type {
   Comment,
   Follows,
+  Image,
   Like,
   Post,
   SavedPost,
@@ -14,6 +15,7 @@ export type PostWithExtras = Post & {
   comments: CommentWithExtras[]
   likes: LikeWithExtras[]
   savedBy: SavedPost[]
+  fileUrl: Image[]
   user: User
 }
 

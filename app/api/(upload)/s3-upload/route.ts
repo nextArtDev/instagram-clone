@@ -1,3 +1,4 @@
+import { getCurrentUser } from '@/lib/getCurrentUser'
 import { prisma } from '@/lib/prisma'
 import S3 from 'aws-sdk/clients/s3'
 import { randomUUID } from 'crypto'
@@ -66,40 +67,47 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
 export async function DELETE(request: NextRequest, response: NextResponse) {
   try {
+    const user = await getCurrentUser()
+    if (!user) return
     // const rawParams = request.url.split('?')[1]
     // const Key = rawParams.split('key=')[1]
     // // const Key = KeyUrl.split('.')[0]
     //**** */
-    // const id = await request.json()
-    // const product = await prisma.product.findUnique({
-    //   where: {
-    //     id: +id,
-    //   },
-    //   include: {
-    //     images: true,
-    //   },
-    // })
-    // const productImages = product?.images
-    // if (!productImages) return
-    // for (const productImage of productImages) {
-    //   try {
-    //     const { key } = productImage
-    //     console.log(key)
-    //     const s3Params = {
-    //       Bucket: process.env.LIARA_BUCKET_NAME!,
-    //       Key: key,
-    //     }
-    //     await s3.deleteObject(s3Params, (error, data) => {})
-    //     await prisma.image.deleteMany({
-    //       where: {
-    //         productId: +id,
-    //       },
-    //     })
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-    // return NextResponse.json({ success: true })
+    const { id } = await request.json()
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id,
+        userId: user.id,
+      },
+      include: {
+        fileUrl: true,
+      },
+    })
+
+    const postImages = post?.fileUrl
+
+    if (!postImages) return
+
+    for (const postImage of postImages) {
+      try {
+        const { key } = postImage
+
+        const s3Params = {
+          Bucket: process.env.LIARA_BUCKET_NAME!,
+          Key: key,
+        }
+        await s3.deleteObject(s3Params, (error, data) => {})
+        const delREs = await prisma.image.deleteMany({
+          where: {
+            postId: id,
+          },
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error uploading image:', error)
     NextResponse.json({ message: 'Error uploading image' })

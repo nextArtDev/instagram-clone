@@ -1,16 +1,15 @@
-// import { fetchPosts } from '@/lib/data'
 import Post from './Post'
+import { fetchPosts } from '@/queries'
 
 async function Posts() {
-  // const posts = await fetchPosts()
+  const posts = await fetchPosts()
 
   return (
-    <>
-      {/* {posts.map((post) => (
+    <section className="w-full space-y-20 ">
+      {posts.map((post) => (
         <Post key={post.id} post={post} />
-      ))} */}
-      پستها
-    </>
+      ))}
+    </section>
   )
 }
 

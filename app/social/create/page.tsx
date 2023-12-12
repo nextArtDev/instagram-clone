@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import useMount from '@/hooks/useMount'
 import { uploadImage } from '@/lib/actions/image.action'
 import { createPost } from '@/lib/actions/post.action'
@@ -29,9 +30,9 @@ import { uploadToS3 } from '@/lib/uploadToS3'
 import { cn } from '@/lib/utils'
 // import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FileUp } from 'lucide-react'
+import { FileUp, Loader } from 'lucide-react'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -83,17 +84,17 @@ function CreatePage() {
                   }
 
                   for (const file of files) {
-                    const res = await uploadToS3(file, postCreationResult.id)
+                    await uploadToS3(file, postCreationResult.id)
                   }
                   toast.success('پست ایجاد شد')
+                  router.push('/social')
+                  form.reset()
+                  setFiles([])
                 } catch (error) {
                   console.log(error)
+                  return toast.error('مشکلی پیش آمده')
                 }
-                // for (const file of files) {
-                //   // console.log(file)
-                //   const res = await uploadImage(file)
-                //   console.log(res)
-                // }
+
                 // const res = await createPost(values);
                 // if (res) {
                 //   return toast.error(<Error res={res} />);
@@ -145,7 +146,7 @@ function CreatePage() {
                   name="fileUrls"
                   render={({ field: { onChange }, ...field }) => (
                     <FormItem>
-                      <FormLabel className="mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-black/20 border-dashed w-full h-24 shadow  ">
+                      <FormLabel className="mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-black/20 dark:border-white/20 border-dashed w-full h-24 shadow  ">
                         {/* <FileUp size={42} className=" " /> */}
                         <span
                           className={cn(buttonVariants({ variant: 'ghost' }))}
@@ -188,7 +189,7 @@ function CreatePage() {
                         />
                       </FormControl>
                       <FormDescription className="flex justify-center items-center"></FormDescription>
-                      <FormMessage />
+                      <FormMessage className="dark:text-rose-400" />
                     </FormItem>
                   )}
                 />
@@ -202,8 +203,8 @@ function CreatePage() {
                     <FormItem>
                       <FormLabel htmlFor="caption">کپشن</FormLabel>
                       <FormControl>
-                        <Input
-                          type="caption"
+                        <Textarea
+                          // type="caption"
                           id="caption"
                           // placeholder="Write a caption..."
                           {...field}
@@ -219,7 +220,11 @@ function CreatePage() {
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >
-                ایجاد پست
+                {form.formState.isSubmitting ? (
+                  <Loader className="animate-spin  " />
+                ) : (
+                  'ایجاد پست'
+                )}
               </Button>
             </form>
           </Form>

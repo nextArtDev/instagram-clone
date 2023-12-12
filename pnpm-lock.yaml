@@ -104,6 +104,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.13.4
     version: 5.13.4(react@18.2.0)
+  '@types/react-timeago':
+    specifier: ^4.1.6
+    version: 4.1.6
   aws-sdk:
     specifier: ^2.1515.0
     version: 2.1515.0
@@ -155,6 +158,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.48.2
     version: 7.48.2(react@18.2.0)
+  react-timeago:
+    specifier: ^7.2.0
+    version: 7.2.0(react@18.2.0)
   sonner:
     specifier: ^1.2.4
     version: 1.2.4(react-dom@18.2.0)(react@18.2.0)
@@ -2010,6 +2016,12 @@ packages:
     resolution: {integrity: sha512-rvrT/M7Df5eykWFxn6MYt5Pem/Dbyc1N8Y0S9Mrkw2WFCRiqUgw9P7ul2NpwsXCSM1DVdENzdG9J5SreqfAIWg==}
     dependencies:
       '@types/react': 18.2.42
+
+  /@types/react-timeago@4.1.6:
+    resolution: {integrity: sha512-BFUH7FEple9m0K8dNvOqhba3+iCyrgsLcRtAnaZ6HlXvG8AJfC/7NCDcLaXfB1jvpAezwDRi/BflzdaLI4+Fow==}
+    dependencies:
+      '@types/react': 18.2.42
+    dev: false
 
   /@types/react@18.2.42:
     resolution: {integrity: sha512-c1zEr96MjakLYus/wPnuWDo1/zErfdU9rNsIGmE+NV71nx88FG9Ttgo5dqorXTu/LImX2f63WBP986gJkMPNbA==}
@@ -4623,6 +4635,14 @@ packages:
       invariant: 2.2.4
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /react-timeago@7.2.0(react@18.2.0):
+    resolution: {integrity: sha512-2KsBEEs+qRhKx/kekUVNSTIpop3Jwd7SRBm0R4Eiq3mPeswRGSsftY9FpKsE/lXLdURyQFiHeHFrIUxLYskG5g==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react@18.2.0:

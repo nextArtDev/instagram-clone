@@ -8,6 +8,14 @@ const nextConfig = {
     config.externals = [...config.externals, 'bcrypt']
     return config
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mye-commerce.storage.iran.liara.space',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig

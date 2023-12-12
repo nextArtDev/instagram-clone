@@ -12,19 +12,22 @@ export const PostSchema = z.object({
   id: z.string(),
   // fileUrls: z.string().url().array(),
   fileUrls: z
-    .custom<FileList>((val) => val instanceof FileList, 'Required')
-    .refine((files) => files.length > 0, `Required`)
-    .refine((files) => files.length <= 5, `Maximum of 5 images are allowed.`)
+    .custom<FileList>(
+      (val) => val instanceof FileList,
+      'قسمت عکس نمی‌تواند خالی باشد'
+    )
+    .refine((files) => files.length > 0, `قسمت عکس نمی‌تواند خالی باشد`)
+    .refine((files) => files.length <= 5, `حداکثر 5 عکس مجاز است.`)
     .refine(
       (files) => Array.from(files).every((file) => file.size <= MAX_IMAGE_SIZE),
-      `Each file size should be less than 5 MB.`
+      `هر فایل باید کمتر از 5 مگابایت باشد`
     )
     .refine(
       (files) =>
         Array.from(files).every((file) =>
           ALLOWED_IMAGE_TYPES.includes(file.type)
         ),
-      'Only these types are allowed .jpg, .jpeg, .png and .webp'
+      'تنها این فرمتها مجاز است: .jpg, .jpeg, .png and .webp'
     ),
   caption: z.string().optional(),
 })
