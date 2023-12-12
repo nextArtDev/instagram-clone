@@ -156,7 +156,7 @@ export async function bookmarkPost(value: FormDataEntryValue | null) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Bookmark Post.',
+      message: 'خطا! ذخیره ناموفق.',
     }
   }
 
@@ -169,7 +169,7 @@ export async function bookmarkPost(value: FormDataEntryValue | null) {
   })
 
   if (!post) {
-    throw new Error('Post not found.')
+    throw new Error('پست پیدا نشد!')
   }
 
   const bookmark = await prisma.savedPost.findUnique({
@@ -192,10 +192,10 @@ export async function bookmarkPost(value: FormDataEntryValue | null) {
         },
       })
       revalidatePath('/social')
-      return { message: 'Unbookmarked Post.' }
+      return { message: 'از ذخیره خارج شد.' }
     } catch (error) {
       return {
-        message: 'Database Error: Failed to Unbookmark Post.',
+        message: 'خطای شبکه! ناموفق در ذخیره پست.',
       }
     }
   }
@@ -208,10 +208,10 @@ export async function bookmarkPost(value: FormDataEntryValue | null) {
       },
     })
     revalidatePath('/social')
-    return { message: 'Bookmarked Post.' }
+    return { message: 'پست ذخیره شد.' }
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Bookmark Post.',
+      message: 'خطای شبکه! لطفا دوباره امتحان کنید.',
     }
   }
 }

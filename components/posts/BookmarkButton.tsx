@@ -6,6 +6,7 @@ import { SavedPost } from '@prisma/client'
 import { Bookmark } from 'lucide-react'
 import { useOptimistic } from 'react'
 import { PostWithExtras } from '@/types/definitions'
+import { bookmarkPost } from '@/lib/actions/post.action'
 
 type Props = {
   post: PostWithExtras
@@ -32,9 +33,9 @@ function BookmarkButton({ post, userId }: Props) {
       action={async (formData: FormData) => {
         const postId = formData.get('postId')
         addOptimisticBookmark({ postId, userId })
-        // await bookmarkPost(postId);
+        await bookmarkPost(postId)
       }}
-      className="ml-auto"
+      className="mr-auto"
     >
       <input type="hidden" name="postId" value={post.id} />
 
