@@ -38,7 +38,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
   const inactiveStyles = 'hidden text-gray-400'
 
   return (
-    <div className="group relative bg-zinc-100 aspect-square overflow-hidden rounded-xl">
+    <div className=" group absolute inset-0 bg-zinc-100 aspect-square overflow-hidden rounded-xl">
       <div className="absolute z-10 inset-0 opacity-0 group-hover:opacity-100 transition">
         <button
           onClick={(e) => {
@@ -90,7 +90,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
               loading="eager"
               className="-z-10 h-full w-full object-cover object-center"
               src={url}
-              alt="Product image"
+              alt="عکس پست"
             />
           </SwiperSlide>
         ))}

@@ -227,7 +227,7 @@ export async function createComment(values: z.infer<typeof CreateComment>) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Comment.',
+      message: 'ارسال کامنت ناموفق بود! دوباره امتحان کنید.',
     }
   }
 
@@ -240,7 +240,7 @@ export async function createComment(values: z.infer<typeof CreateComment>) {
   })
 
   if (!post) {
-    throw new Error('Post not found')
+    throw new Error('پست حذف شده است.')
   }
 
   try {
@@ -252,9 +252,9 @@ export async function createComment(values: z.infer<typeof CreateComment>) {
       },
     })
     revalidatePath('/social')
-    return { message: 'Created Comment.' }
+    return { message: 'کامنت ارسال شد.' }
   } catch (error) {
-    return { message: 'Database Error: Failed to Create Comment.' }
+    return { message: 'خطا در شبکه! لطفا بعدا امتحان کنید.' }
   }
 }
 
@@ -276,7 +276,7 @@ export async function deleteComment(formData: FormData) {
   })
 
   if (!comment) {
-    throw new Error('Comment not found')
+    throw new Error('کامنت یافت نشد!')
   }
 
   try {
@@ -286,9 +286,9 @@ export async function deleteComment(formData: FormData) {
       },
     })
     revalidatePath('/social')
-    return { message: 'Deleted Comment.' }
+    return { message: 'کامنت حذف شد!' }
   } catch (error) {
-    return { message: 'Database Error: Failed to Delete Comment.' }
+    return { message: 'خطای شبکه! لطفا بعدا امتحان کنید.' }
   }
 }
 

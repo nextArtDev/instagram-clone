@@ -7,6 +7,7 @@ import { Bookmark } from 'lucide-react'
 import { useOptimistic } from 'react'
 import { PostWithExtras } from '@/types/definitions'
 import { bookmarkPost } from '@/lib/actions/post.action'
+import { TooltipText } from '../share/tooltip'
 
 type Props = {
   post: PostWithExtras
@@ -40,11 +41,13 @@ function BookmarkButton({ post, userId }: Props) {
       <input type="hidden" name="postId" value={post.id} />
 
       <ActionIcon>
-        <Bookmark
-          className={cn('h-6 w-6', {
-            'dark:fill-white fill-black': optimisticBookmarks.some(predicate),
-          })}
-        />
+        <TooltipText text="ذخیره">
+          <Bookmark
+            className={cn('h-6 w-6', {
+              'dark:fill-white fill-black': optimisticBookmarks.some(predicate),
+            })}
+          />
+        </TooltipText>
       </ActionIcon>
     </form>
   )

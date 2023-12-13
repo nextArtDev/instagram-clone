@@ -52,8 +52,8 @@ async function Post({ post }: { post: PostWithExtras }) {
 
         <PostOptions post={post} userId={userId} />
       </div>
-
-      <Card className="relative h-[510px] w-full overflow-hidden rounded-none sm:rounded-md">
+      {/* 465px should be h-[510px] until 640px */}
+      <Card className="relative h-[450px] sm:h-[510px] w-full overflow-hidden rounded-none sm:rounded-md">
         {/* <Image
           src={post.fileUrl}
           alt="Post Image"
@@ -62,9 +62,7 @@ async function Post({ post }: { post: PostWithExtras }) {
         /> */}
         <ImageSlider urls={validImageUrls} />
       </Card>
-
       <PostActions post={post} userId={userId} className="px-3 sm:px-0" />
-
       {post.caption && (
         <div className="text-sm leading-none flex items-center gap-x-2 font-medium px-3 sm:px-0">
           <Link href={`/social/users/${userId}`} className="font-bold">
@@ -73,7 +71,6 @@ async function Post({ post }: { post: PostWithExtras }) {
           <p>{post.caption}</p>
         </div>
       )}
-
       <Comments postId={post.id} comments={post.comments} user={user} />
     </div>
   )
