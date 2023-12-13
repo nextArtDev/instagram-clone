@@ -11,6 +11,7 @@ import { Comment } from '@prisma/client'
 import { MoreHorizontal } from 'lucide-react'
 import { toast } from 'sonner'
 import SubmitButton from './SubmitButton'
+import { deleteComment } from '@/lib/actions/post.action'
 
 type Props = {
   comment: Comment
@@ -25,19 +26,19 @@ function CommentOptions({ comment }: Props) {
       <DialogContent className="dialogContent">
         <form
           action={async (formData) => {
-            // const { message } = await deleteComment(formData)
-            // toast(message)
+            const res = await deleteComment(formData)
+            toast(res?.message)
           }}
           className="postOption"
         >
           <input type="hidden" name="id" value={comment.id} />
           <SubmitButton className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">
-            Delete
+            حذف
           </SubmitButton>
         </form>
 
         <DialogClose className="postOption border-0 w-full p-3">
-          Cancel
+          صرف‌نظر
         </DialogClose>
       </DialogContent>
     </Dialog>

@@ -303,7 +303,7 @@ export async function updatePost(values: z.infer<typeof UpdatePost>) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Update Post.',
+      message: 'خطا در ویرایش پست!',
     }
   }
 
@@ -318,7 +318,7 @@ export async function updatePost(values: z.infer<typeof UpdatePost>) {
   })
 
   if (!post) {
-    throw new Error('Post not found')
+    throw new Error('پست حذف شده است.')
   }
 
   try {
@@ -332,7 +332,7 @@ export async function updatePost(values: z.infer<typeof UpdatePost>) {
       },
     })
   } catch (error) {
-    return { message: 'Database Error: Failed to Update Post.' }
+    return { message: 'خطا در شبکه! پست آپدیت نشد.' }
   }
 
   revalidatePath('/social')

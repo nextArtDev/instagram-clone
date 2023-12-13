@@ -19,6 +19,7 @@ function NavLinks() {
         return (
           <TooltipText text={link.name} key={link.name}>
             <Link
+              key={link.name}
               href={link.href}
               className={buttonVariants({
                 variant: isActive ? 'secondary' : 'ghost',

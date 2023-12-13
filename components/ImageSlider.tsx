@@ -45,28 +45,28 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
             e.preventDefault()
             swiper?.slideNext()
           }}
-          className={cn(activeStyles, 'right-3 transition', {
+          className={cn(activeStyles, 'left-3 transition', {
             [inactiveStyles]: slideConfig.isEnd,
             'hover:bg-primary-300 text-primary-800 opacity-100':
               !slideConfig.isEnd,
           })}
           aria-label="next image"
         >
-          <ChevronRight className="h-4 w-4 text-zinc-700" />{' '}
+          <ChevronLeft className="h-4 w-4 text-zinc-700" />{' '}
         </button>
         <button
           onClick={(e) => {
             e.preventDefault()
             swiper?.slidePrev()
           }}
-          className={cn(activeStyles, 'left-3 transition', {
+          className={cn(activeStyles, 'right-3 transition', {
             [inactiveStyles]: slideConfig.isBeginning,
             'hover:bg-primary-300 text-primary-800 opacity-100':
               !slideConfig.isBeginning,
           })}
           aria-label="previous image"
         >
-          <ChevronLeft className="h-4 w-4 text-zinc-700" />{' '}
+          <ChevronRight className="h-4 w-4 text-zinc-700" />{' '}
         </button>
       </div>
 

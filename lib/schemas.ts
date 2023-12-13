@@ -33,7 +33,7 @@ export const PostSchema = z.object({
 })
 
 export const CreatePost = PostSchema.omit({ id: true })
-export const UpdatePost = PostSchema
+export const UpdatePost = PostSchema.omit({ fileUrls: true })
 export const DeletePost = PostSchema.pick({ id: true })
 
 export const LikeSchema = z.object({
