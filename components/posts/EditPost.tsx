@@ -49,14 +49,16 @@ function EditPost({ id, post }: { id: string; post: Post }) {
 
   return (
     <Dialog open={isEditPage} onOpenChange={(open) => !open && router.back()}>
-      <DialogContent>
+      <DialogContent dir="rtl">
         <DialogHeader>
-          <DialogTitle>ویرایش پست</DialogTitle>
+          <DialogTitle className="text-right opacity-70 ">
+            ویرایش متن پست
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            className="space-y-4"
+            className="space-y-8"
             onSubmit={form.handleSubmit(async (values) => {
               const res = await updatePost(values)
 
@@ -96,7 +98,7 @@ function EditPost({ id, post }: { id: string; post: Post }) {
             />
 
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              انجام
+              ویرایش
             </Button>
           </form>
         </Form>

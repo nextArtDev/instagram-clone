@@ -43,9 +43,9 @@ export function EditPostSkeleton() {
           <DialogTitle>Edit info</DialogTitle>
         </DialogHeader>
 
-        <AspectRatio ratio={1 / 1} className="relative h-full">
+        {/* <AspectRatio ratio={1 / 1} className="relative h-full">
           <Skeleton className="h-full w-full" />
-        </AspectRatio>
+        </AspectRatio> */}
 
         <Skeleton className="h-10 w-full" />
       </DialogContent>

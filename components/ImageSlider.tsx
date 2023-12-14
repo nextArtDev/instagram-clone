@@ -12,9 +12,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface ImageSliderProps {
   urls: string[]
+  className?: string
 }
 
-const ImageSlider = ({ urls }: ImageSliderProps) => {
+const ImageSlider = ({ urls, className }: ImageSliderProps) => {
   const [swiper, setSwiper] = useState<null | SwiperType>(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -88,7 +89,10 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
             <Image
               fill
               loading="eager"
-              className="-z-10 h-full w-full object-cover object-center"
+              className={cn(
+                '-z-10 h-full w-full object-cover object-center',
+                className
+              )}
               src={url}
               alt="عکس پست"
             />

@@ -331,10 +331,10 @@ export async function updatePost(values: z.infer<typeof UpdatePost>) {
         caption,
       },
     })
+    revalidatePath('/social')
   } catch (error) {
     return { message: 'خطا در شبکه! پست آپدیت نشد.' }
   }
 
-  revalidatePath('/social')
   redirect('/social')
 }

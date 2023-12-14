@@ -35,7 +35,7 @@ async function SinglePost({ id }: { id: string }) {
   const currentUser = await getCurrentUser()
   const userId = currentUser?.id
 
-  const postUsername = post?.user.username
+  const postUsername = post?.user.name
   if (!post) {
     notFound()
   }
@@ -52,7 +52,10 @@ async function SinglePost({ id }: { id: string }) {
             fill
             className="md:rounded-l-md object-cover"
           /> */}
-          <ImageSlider urls={validImageUrls} />
+          <ImageSlider
+            urls={validImageUrls}
+            className="md:rounded-l-md md:rounded-r-none"
+          />
         </div>
 
         <div className="flex max-w-sm flex-col flex-1">
@@ -67,12 +70,12 @@ async function SinglePost({ id }: { id: string }) {
                 </Link>
               </HoverCardTrigger>
               <HoverCardContent>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-x-2">
                   <UserAvatar user={post.user} className="h-14 w-14" />
                   <div>
                     <p className="font-bold">{postUsername}</p>
-                    <p className="text-sm font-medium dark:text-neutral-400">
-                      {post.user.name}
+                    <p className="py-2 text-sm font-medium dark:text-neutral-400">
+                      {post.user.role === 'ADMIN' ? 'ادمین' : 'کاربر'}
                     </p>
                   </div>
                 </div>
@@ -84,7 +87,7 @@ async function SinglePost({ id }: { id: string }) {
 
           {post.comments.length === 0 && (
             <div className="flex flex-col items-center gap-1.5 flex-1 justify-center">
-              <p className="text-xl lg:text-2xl font-extrabold">
+              <p className="text-sm lg:text-base font-semibold">
                 هنوز بدون کامنت.
               </p>
               <p className="text-sm font-medium">شروع گفت‌وگو</p>
@@ -94,9 +97,9 @@ async function SinglePost({ id }: { id: string }) {
           {post.comments.length > 0 && (
             <ScrollArea className="hidden md:inline py-1.5 flex-1">
               <MiniPost post={post} />
-              {/* {post.comments.map((comment) => (
+              {post.comments.map((comment) => (
                 <Comment key={comment.id} comment={comment} />
-              ))} */}
+              ))}
             </ScrollArea>
           )}
 

@@ -25,8 +25,8 @@ function Comment({ comment, inputRef }: Props) {
         <UserAvatar user={comment.user} />
       </Link>
       <div className="space-y-1.5">
-        <div className="flex  gap-x-1.5 leading-none text-sm">
-          <Link href={href} className=" font-semibold">
+        <div className="  gap-x-1.5 leading-none text-sm">
+          <Link href={href} className="flex-start font-semibold">
             {username}
           </Link>
           <p className="font-medium">{comment.body}</p>
