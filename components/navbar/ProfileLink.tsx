@@ -7,8 +7,13 @@ import { usePathname } from 'next/navigation'
 import { buttonVariants } from '../ui/button'
 import UserAvatar from './UserAvatar'
 import { SafeUser } from '@/types/next-auth'
+import { UserWithAvatar } from '@/types/definitions'
 
-function ProfileLink({ user }: SafeUser) {
+interface ProfileLinkProps {
+  user: UserWithAvatar
+}
+
+function ProfileLink({ user }: ProfileLinkProps) {
   const pathname = usePathname()
   // if (!user) return // I add
 
@@ -26,6 +31,7 @@ function ProfileLink({ user }: SafeUser) {
     >
       <UserAvatar
         user={user}
+        imgUrl={user.image[0]?.url}
         className={`h-6 w-6 ${isActive && 'border-2 border-white'}`}
       />
 

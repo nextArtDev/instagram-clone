@@ -17,6 +17,7 @@ const s3 = new S3({
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
     const postId = request.nextUrl.searchParams.get('postId')
+    const userId = request.nextUrl.searchParams.get('userId')
     const fileType = request.nextUrl.searchParams.get('fileType')
 
     const ex = fileType!.split('/')[1]
@@ -34,24 +35,68 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
     // we should use this url to make a post request
     // console.log('uploadUrl', uploadUrl)
-    if (!uploadUrl || !postId) return
-
+    if (!uploadUrl) return
+    if (!userId && !postId) return
     const url = uploadUrl.split('?')[0]
 
-    const image = await prisma.image.create({
-      data: {
-        key: Key,
-        url,
-        postId,
-      },
-    })
+    if (!userId && postId) {
+      const image = await prisma.image.create({
+        data: {
+          key: Key,
+          url,
+          postId,
+        },
+      })
 
-    await prisma.post.update({
-      where: { id: postId },
-      data: {
-        fileUrl: { connect: { id: image.id } },
-      },
-    })
+      await prisma.post.update({
+        where: { id: postId },
+        data: {
+          fileUrl: { connect: { id: image.id } },
+        },
+      })
+    } else if (userId && !postId) {
+      const image = await prisma.image.create({
+        data: {
+          key: Key,
+          url,
+          userId,
+        },
+      })
+      const oldPic = await prisma.image.findFirst({
+        where: { userId },
+      })
+      if (oldPic) {
+        const s3Params = {
+          Bucket: process.env.LIARA_BUCKET_NAME!,
+          Key: oldPic.key,
+        }
+        await s3.deleteObject(s3Params, (error, data) => {
+          console.log('deleted successfully')
+        })
+      }
+      await prisma.$transaction(async (prisma) => {
+        // First, disconnect all images
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            image: {
+              // Assuming there's a field that can be set to an empty array to disconnect all images
+              set: [],
+            },
+          },
+        })
+
+        // Then, connect the new image
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            image: {
+              connect: { id: image.id },
+            },
+          },
+        })
+      })
+    }
 
     return NextResponse.json({
       success: true,

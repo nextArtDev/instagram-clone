@@ -38,6 +38,7 @@
 //   }
 // }
 
+import { Image } from '@prisma/client'
 import type { Session, User } from 'next-auth'
 import type { JWT } from 'next-auth/jwt'
 
@@ -49,6 +50,7 @@ declare module 'next-auth/jwt' {
     name: string
     isVerified: string
     role: Role
+    image: { url: string }
   }
 }
 
@@ -59,6 +61,7 @@ declare module 'next-auth' {
       name: string
       phone: string
       role: Role
+      image: { url: string }
     }
     // user: {
     //   id: string

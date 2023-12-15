@@ -1,5 +1,10 @@
 import localFont from 'next/font/local'
+import { Katibeh } from 'next/font/google'
 
+export const katibeh = Katibeh({
+  weight: '400',
+  subsets: ['latin'],
+})
 export const numericFont = localFont({
   src: '../public/fonts/FarsiAdad.woff2',
   variable: '--font-adad',

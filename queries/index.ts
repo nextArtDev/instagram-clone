@@ -10,7 +10,7 @@ export async function fetchPosts() {
       include: {
         comments: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
 
           orderBy: {
@@ -19,11 +19,11 @@ export async function fetchPosts() {
         },
         likes: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
         },
         savedBy: true,
-        user: true,
+        user: { include: { image: true } },
         fileUrl: true,
       },
       orderBy: {
@@ -49,7 +49,7 @@ export async function fetchPostById(id: string) {
       include: {
         comments: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
           orderBy: {
             createdAt: 'desc',
@@ -59,11 +59,11 @@ export async function fetchPostById(id: string) {
         fileUrl: true,
         likes: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
         },
         savedBy: true,
-        user: true,
+        user: { include: { image: true } },
       },
     })
 
@@ -88,7 +88,7 @@ export async function fetchPostsByUserId(userId: string, postId?: string) {
       include: {
         comments: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
           orderBy: {
             createdAt: 'desc',
@@ -96,15 +96,129 @@ export async function fetchPostsByUserId(userId: string, postId?: string) {
         },
         likes: {
           include: {
-            user: true,
+            user: { include: { image: true } },
           },
         },
         savedBy: true,
-        user: true,
+        user: { include: { image: true } },
         fileUrl: true,
       },
       orderBy: {
         createdAt: 'desc',
+      },
+    })
+
+    return data
+  } catch (error) {
+    console.error('خطای شبکه!', error)
+    throw new Error('Failed to fetch posts')
+  }
+}
+
+export async function fetchProfile(userId: string) {
+  noStore()
+
+  try {
+    const data = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        posts: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        saved: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        followedBy: {
+          include: {
+            follower: {
+              include: {
+                following: true,
+                followedBy: true,
+                image: true,
+              },
+            },
+          },
+        },
+        following: {
+          include: {
+            following: {
+              include: {
+                following: true,
+                followedBy: true,
+                image: true,
+              },
+            },
+          },
+        },
+        image: true,
+      },
+    })
+
+    return data
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch profile')
+  }
+}
+
+export async function fetchSavedPostsByUserId(userId: string) {
+  noStore()
+
+  try {
+    const data = await prisma.savedPost.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        post: {
+          include: {
+            fileUrl: true,
+            comments: {
+              include: {
+                user: { include: { image: true } },
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+            },
+            likes: {
+              include: {
+                user: { include: { image: true } },
+              },
+            },
+            savedBy: true,
+            user: { include: { image: true } },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return data
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch saved posts')
+  }
+}
+
+export async function fetchUserById(id: string, postId?: string) {
+  noStore()
+  try {
+    // if (!id) return
+    const data = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        image: true,
       },
     })
 

@@ -8,18 +8,18 @@ import type {
   User,
 } from '@prisma/client'
 
-export type CommentWithExtras = Comment & { user: User }
-export type LikeWithExtras = Like & { user: User }
+export type CommentWithExtras = Comment & { user: UserWithAvatar }
+export type LikeWithExtras = Like & { user: UserWithAvatar }
 
 export type PostWithExtras = Post & {
   comments: CommentWithExtras[]
   likes: LikeWithExtras[]
   savedBy: SavedPost[]
   fileUrl: Image[]
-  user: User
+  user: UserWithAvatar
 }
 
-export type UserWithFollows = User & {
+export type UserWithFollows = UserWithAvatar & {
   following: Follows[]
   followedBy: Follows[]
 }
@@ -32,4 +32,8 @@ export type UserWithExtras = User & {
   saved: SavedPost[]
   followedBy: FollowerWithExtras[]
   following: FollowingWithExtras[]
+  image: Image[]
+}
+export type UserWithAvatar = User & {
+  image: Image[]
 }

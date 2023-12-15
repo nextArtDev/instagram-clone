@@ -52,7 +52,8 @@ function PostView({ id, post }: { id: string; post: PostWithExtras }) {
         <div className="flex flex-col justify-between md:h-full md:order-2 w-full max-w-md">
           <DialogHeader className="flex border-b space-y-0 gap-x-2.5 flex-row items-center py-4 pl-3.5 pr-6">
             <Link href={href}>
-              <UserAvatar user={post.user} />
+              {/* @ts-ignore */}
+              <UserAvatar user={post.user} imgUrl={post.user?.image[0]?.url} />
             </Link>
             <Link href={href} className="font-semibold text-sm">
               {username}

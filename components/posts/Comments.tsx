@@ -70,7 +70,7 @@ function Comments({
             className="text-sm flex items-center gap-x-2  font-medium"
           >
             <Link
-              href={`/social/${username}`}
+              href={`/social/${comment.user.id}`}
               className="font-semibold opacity-60"
             >
               {username}:

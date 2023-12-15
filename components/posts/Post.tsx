@@ -22,6 +22,7 @@ async function Post({ post }: { post: PostWithExtras }) {
   const userId = user?.id
   const username = post?.user?.name
 
+  // console.log(post.user.image[0].url)
   if (!user) return null
 
   const imageUrls: string[] = []
@@ -31,8 +32,13 @@ async function Post({ post }: { post: PostWithExtras }) {
     <div className={cn('flex flex-col gap-y-2.5', primaryFont.className)}>
       <div className="flex items-center justify-between px-3 sm:px-0">
         <div className="flex gap-x-3 items-center">
-          <Link href={`/social/users/${userId}`}>
-            <UserAvatar user={post.user} />
+          <Link href={`/social/${post.user.id}`}>
+            {/* <UserAvatar user={post.user} /> */}
+            <UserAvatar
+              user={post.user}
+              imgUrl={post?.user?.image[0]?.url}
+              name={post.user.name}
+            />
           </Link>
           <div className="text-sm">
             <div className="gap-x-1">
@@ -65,7 +71,7 @@ async function Post({ post }: { post: PostWithExtras }) {
       <PostActions post={post} userId={userId} className="px-3 sm:px-0" />
       {post.caption && (
         <div className="text-sm leading-none flex items-center gap-x-2 font-medium px-3 sm:px-0">
-          <Link href={`/social/users/${userId}`} className="font-bold">
+          <Link href={`/social/${userId}`} className="font-bold">
             {username}
           </Link>
           <p>{post.caption}</p>

@@ -42,6 +42,7 @@ async function SinglePost({ id }: { id: string }) {
 
   const imageUrls: string[] = []
   const validImageUrls = post.fileUrl.flatMap(({ url }) => [...imageUrls, url])
+
   return (
     <>
       <Card className="max-w-3xl lg:max-w-4xl hidden md:flex mx-auto">
@@ -71,7 +72,12 @@ async function SinglePost({ id }: { id: string }) {
               </HoverCardTrigger>
               <HoverCardContent>
                 <div className="flex items-center gap-x-2">
-                  <UserAvatar user={post.user} className="h-14 w-14" />
+                  <UserAvatar
+                    user={post.user}
+                    imgUrl={post.user.image[0].url}
+                    name={post.user.name}
+                    className="h-14 w-14"
+                  />
                   <div>
                     <p className="font-bold">{postUsername}</p>
                     <p className="py-2 text-sm font-medium dark:text-neutral-400">

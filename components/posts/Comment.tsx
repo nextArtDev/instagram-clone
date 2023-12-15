@@ -17,12 +17,12 @@ type Props = {
 function Comment({ comment, inputRef }: Props) {
   const { data: session } = useSession()
   const username = comment.user.name
-  const href = `/social/${username}`
+  const href = `/social/${comment.user.id}`
 
   return (
     <div dir="rtl" className="group p-3 px-3.5  flex items-start gap-x-2.5">
       <Link href={href}>
-        <UserAvatar user={comment.user} />
+        <UserAvatar user={comment.user} imgUrl={comment.user?.image[0]?.url} />
       </Link>
       <div className="space-y-1.5">
         <div className="  gap-x-1.5 leading-none text-sm">
