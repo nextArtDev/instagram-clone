@@ -40,7 +40,7 @@ function FollowersModal({
         </DialogHeader>
 
         {followers?.length === 0 && (
-          <p className="p-4 text-sm font-medium">
+          <p className="p-6 text-xs font-medium">
             این کاربر هنوز فالوئری ندارد
           </p>
         )}

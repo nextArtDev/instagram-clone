@@ -40,7 +40,9 @@ function FollowingModal({
         </DialogHeader>
 
         {following?.length === 0 && (
-          <p>این کاربر هنوز کسی را فالو نکرده است.</p>
+          <p className="p-6 text-xs text-center font-medium">
+            این کاربر هنوز کسی را فالو نکرده است.
+          </p>
         )}
 
         <ScrollArea className="min-h-fit max-h-[350px]">

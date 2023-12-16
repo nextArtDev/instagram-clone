@@ -25,7 +25,7 @@ function Following({ following }: { following: FollowingWithExtras }) {
           imgUrl={following.following?.image[0]?.url}
           className="h-10 w-10"
         />
-        <p className="font-bold text-sm">{following.following.username}</p>
+        <p className="font-bold text-sm">{following.following.name}</p>
       </Link>
       {!isCurrentUser && (
         <FollowButton

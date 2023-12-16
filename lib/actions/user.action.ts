@@ -107,8 +107,8 @@ export async function updateProfile(values: z.infer<typeof UpdateUser>) {
     //     url: image,
     //   },
     // })
-    revalidatePath('/social')
-    return { message: 'Updated Profile.' }
+    revalidatePath('/social/edit-profile')
+    return { message: 'پروفایل اپدیت شد.' }
   } catch (error) {
     return { message: 'Database Error: Failed to Update Profile.' }
   }

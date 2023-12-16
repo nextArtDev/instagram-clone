@@ -18,7 +18,7 @@ function Follower({ follower }: { follower: FollowerWithExtras }) {
   return (
     <div className="p-4 flex items-center justify-between gap-x-3">
       <Link
-        href={`/dashboard/${follower.follower.username}`}
+        href={`/social/${follower.follower.id}`}
         className="flex items-center gap-x-3"
       >
         <UserAvatar
@@ -27,7 +27,7 @@ function Follower({ follower }: { follower: FollowerWithExtras }) {
           name={follower.follower.name}
           className="h-10 w-10"
         />
-        <p className="font-bold text-sm">{follower.follower.username}</p>
+        <p className="font-bold text-sm">{follower.follower.name}</p>
       </Link>
       {!isCurrentUser && (
         <FollowButton

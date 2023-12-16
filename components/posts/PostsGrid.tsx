@@ -15,7 +15,7 @@ function PostsGrid({ posts }: { posts: PostWithExtras[] | undefined }) {
     )
   }
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5">
+    <div className="grid  grid-cols-3 gap-1.5 ">
       {posts?.map((post) => {
         const imageUrls: string[] = []
         const validImageUrls = post.fileUrl.flatMap(({ url }) => [

@@ -59,7 +59,7 @@ async function Post({ post }: { post: PostWithExtras }) {
         <PostOptions post={post} userId={userId} />
       </div>
       {/* 465px should be h-[510px] until 640px */}
-      <Card className="relative h-[450px] sm:h-[510px] w-full overflow-hidden rounded-none sm:rounded-md">
+      <Card className="relative h-[450px] sm:h-[510px] w-full overflow-hidden rounded-sm sm:rounded-md">
         {/* <Image
           src={post.fileUrl}
           alt="Post Image"

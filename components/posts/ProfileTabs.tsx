@@ -46,6 +46,7 @@ function ProfileTabs({
     <Tabs dir="rtl" defaultValue="posts" className="pt-14 md:pt-32 pb-16">
       <TabsList className="p-px bg-zinc-300 dark:bg-neutral-800 h-px w-full gap-x-10">
         {profileTabs
+          // if this is true filter that
           .filter((tab) => isCurrentUser || tab.href !== 'saved')
           .map((tab) => {
             const profilePage = `/social/${profile.username}`
