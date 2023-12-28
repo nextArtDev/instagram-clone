@@ -39,7 +39,7 @@ export function UserActivationForm({ phoneNumber: phone }: pageProps) {
 
   //react-query
 
-  const { mutate: activation, isLoading } = useMutation({
+  const { mutate: activation, isPending: isLoading } = useMutation({
     mutationFn: async ({ code }: z.infer<typeof ActivationFormSchema>) => {
       const payload: z.infer<typeof ActivationFormSchema> = { code }
       // const { data } = await axios.post('/api/user', payload)

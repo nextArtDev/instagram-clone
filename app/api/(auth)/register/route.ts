@@ -23,26 +23,27 @@ export async function POST(request: Request) {
         phone: body.phone,
       },
     })
-    console.log(user)
-    if (!user) {
-      return null
-    }
-    console.log(user.isVerified)
+    // console.log(user)
+    if (!user) return
+    // if (!user) {
+    //   return null
+    // }
+    // console.log(user.isVerified)
     if (user && user.isVerified !== true) {
       //   return {
       //   }
       return new Response(
         JSON.stringify({
           message: 'شما هنوز شماره تلفن خود را تایید نکرده اید.',
-          async redirects() {
-            return [
-              {
-                source: '/',
-                destination: '/api/otp',
-                permanent: true,
-              },
-            ]
-          },
+          // async redirects() {
+          //   return [
+          //     {
+          //       source: '/',
+          //       destination: '/api/otp',
+          //       permanent: true,
+          //     },
+          //   ]
+          // },
         }),
         { status: 409 }
       )

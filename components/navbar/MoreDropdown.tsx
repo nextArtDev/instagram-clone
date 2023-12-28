@@ -23,30 +23,34 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { useClickAway } from '@uidotdev/usehooks'
 
 function MoreDropdown() {
   const [showModeToggle, setShowModeToggle] = useState(false)
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  // const ref = useRef<HTMLDivElement>(null)
+  const ref = useClickAway<HTMLDivElement>(() => {
+    setOpen(false)
+  })
 
   const { theme, setTheme } = useTheme()
 
-  useEffect(() => {
-    // Close the dropdown when the user clicks outside
-    function handleOutsideClick(event: MouseEvent) {
-      if (!event.target) return
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setShowModeToggle(false)
-        setOpen(false)
-      }
-    }
+  // useEffect(() => {
+  //   // Close the dropdown when the user clicks outside
+  //   function handleOutsideClick(event: MouseEvent) {
+  //     if (!event.target) return
+  //     if (ref.current && !ref.current.contains(event.target as Node)) {
+  //       setShowModeToggle(false)
+  //       setOpen(false)
+  //     }
+  //   }
 
-    document.addEventListener('mousedown', handleOutsideClick)
+  //   document.addEventListener('mousedown', handleOutsideClick)
 
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [ref])
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleOutsideClick)
+  //   }
+  // }, [ref])
 
   return (
     <DropdownMenu open={open}>

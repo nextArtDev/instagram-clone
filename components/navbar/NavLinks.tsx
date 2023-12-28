@@ -13,7 +13,7 @@ function NavLinks() {
   return (
     <>
       {links.map((link) => {
-        const LinkIcon = link.icon
+        const { icon: Icon } = link
         const isActive = pathname === link.href
 
         return (
@@ -23,13 +23,13 @@ function NavLinks() {
               href={link.href}
               className={buttonVariants({
                 variant: isActive ? 'secondary' : 'ghost',
-                className: cn('navLink', {
+                className: cn('navLink  ', {
                   'hidden md:flex': link.hideOnMobile,
                 }),
                 size: 'lg',
               })}
             >
-              <LinkIcon className="w-6" />
+              <Icon className="w-6" />
               <p
                 className={`${cn('hidden lg:block', {
                   'font-extrabold': isActive,
