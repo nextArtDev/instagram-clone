@@ -1,8 +1,5 @@
 import { Avatar } from '@/components/ui/avatar'
-import { UserWithAvatar, UserWithExtras } from '@/types/definitions'
-import { Image } from '@prisma/client'
 import type { AvatarProps } from '@radix-ui/react-avatar'
-import type { User } from 'next-auth'
 import NextImage from 'next/image'
 
 type Props = Partial<AvatarProps> & {

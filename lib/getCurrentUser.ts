@@ -23,6 +23,10 @@ export async function getCurrentUser() {
     // console.log(currentUser)
     if (!currentUser) return null
 
+    // I added
+    // const userId = currentUser.id
+    // if (!userId) return
+
     return {
       ...currentUser,
       createdAt: currentUser.createdAt.toISOString(),

@@ -53,9 +53,9 @@ model Image {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  User   User?   @relation(fields: [userId], references: [id])
+  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String?
-  Post   Post?   @relation(fields: [postId], references: [id])
+  Post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String?
 }
 

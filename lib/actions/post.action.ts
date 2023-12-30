@@ -34,7 +34,7 @@ export async function createPost(params: CreatePostParams) {
       },
     })
 
-    revalidatePath('/social')
+    revalidatePath('/social/create')
     return newPost
   } catch (error) {
     console.log(error)

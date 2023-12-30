@@ -6,6 +6,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -22,7 +23,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import useMount from '@/hooks/useMount'
-import { uploadImage } from '@/lib/actions/image.action'
 import { createPost } from '@/lib/actions/post.action'
 // import { createPost } from "@/lib/actions";
 import { CreatePost } from '@/lib/schemas'
@@ -30,10 +30,9 @@ import { uploadToS3 } from '@/lib/uploadToS3'
 import { cn } from '@/lib/utils'
 // import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FileUp, Loader } from 'lucide-react'
-import Image from 'next/image'
-import { redirect, usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { Loader } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { ElementRef, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -44,6 +43,7 @@ function CreatePage() {
   const router = useRouter()
   const mount = useMount()
   const [files, setFiles] = useState<File[]>([])
+  const closeRef = useRef<ElementRef<'button'>>(null)
 
   const form = useForm<z.infer<typeof CreatePost>>({
     resolver: zodResolver(CreatePost),
@@ -87,9 +87,10 @@ function CreatePage() {
                     await uploadToS3(file, postCreationResult.id)
                   }
                   toast.success('پست ایجاد شد')
-                  router.push('/social')
                   form.reset()
                   setFiles([])
+                  closeRef.current?.click()
+                  router.push('/social')
                 } catch (error) {
                   console.log(error)
                   return toast.error('مشکلی پیش آمده')
@@ -196,36 +197,39 @@ function CreatePage() {
               )}
 
               {files.length > 0 && (
-                <FormField
-                  control={form.control}
-                  name="caption"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel htmlFor="caption">کپشن</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          // type="caption"
-                          id="caption"
-                          // placeholder="Write a caption..."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <>
+                  <FormField
+                    control={form.control}
+                    name="caption"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="caption">کپشن</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            // type="caption"
+                            id="caption"
+                            // placeholder="Write a caption..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DialogClose ref={closeRef} asChild>
+                    <Button
+                      className=""
+                      type="submit"
+                      disabled={form.formState.isSubmitting}
+                    >
+                      {'ایجاد پست'}
+                      {form.formState.isSubmitting && (
+                        <Loader className="animate-spin  " />
+                      )}
+                    </Button>
+                  </DialogClose>
+                </>
               )}
-              <Button
-                className=""
-                type="submit"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? (
-                  <Loader className="animate-spin  " />
-                ) : (
-                  'ایجاد پست'
-                )}
-              </Button>
             </form>
           </Form>
         </DialogContent>
