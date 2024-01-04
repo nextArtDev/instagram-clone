@@ -23,6 +23,7 @@ async function Post({ post }: { post: PostWithExtras }) {
   const username = post?.user?.name
 
   // console.log(post.user.image[0].url)
+
   if (!user) return null
 
   const imageUrls: string[] = []
@@ -43,7 +44,10 @@ async function Post({ post }: { post: PostWithExtras }) {
           <div className="text-sm">
             <div className="gap-x-1">
               <span className="font-semibold">{username}</span>
-              <span className="font-medium text-neutral-500 dark:text-neutral-400 text-xs px-1.5 ">
+              <span
+                dir="rtl"
+                className="font-medium text-neutral-500 dark:text-neutral-400 text-xs px-1.5 "
+              >
                 • {timestamp(post.createdAt)}
               </span>
               {/* <Timestamp createdAt={post.createdAt} /> */}
@@ -51,7 +55,7 @@ async function Post({ post }: { post: PostWithExtras }) {
             <p className="text-xs text-black dark:text-white font-medium">
               {/* Dubai, United Arab Emirates */}
               {/* ادمین */}
-              {user.role === 'USER' ? 'کاربر' : 'ادمین'}
+              {post.user.role === 'USER' ? 'کاربر' : 'ادمین'}
             </p>
           </div>
         </div>

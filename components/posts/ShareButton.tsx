@@ -12,11 +12,11 @@ function ShareButton({ postId }: { postId: string }) {
           `${window.location.origin}/social/p/${postId}`
         )
         toast('لینک کپی شد.', {
-          icon: <Link className={'h-5 w-5'} />,
+          icon: <Link className={'h-5 w-5 '} />,
         })
       }}
     >
-      <Send className={'h-6 w-6'} />
+      <Send className={'h-6 w-6 -rotate-90'} />
     </ActionIcon>
   )
 }

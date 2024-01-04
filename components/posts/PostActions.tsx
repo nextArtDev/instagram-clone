@@ -21,7 +21,7 @@ function PostActions({ post, userId, className }: Props) {
       <Link href={`/social/p/${post.id}`}>
         <TooltipText text="کامنت‌ها">
           <ActionIcon>
-            <MessageCircle className={'h-6 w-6'} />
+            <MessageCircle className={'h-6 w-6 -rotate-90'} />
           </ActionIcon>
         </TooltipText>
       </Link>

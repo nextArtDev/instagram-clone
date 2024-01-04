@@ -18,6 +18,7 @@ function LikeButton({
 }) {
   const predicate = (like: Like) =>
     like.userId === userId && like.postId === post.id
+
   const [optimisticLikes, addOptimisticLike] = useOptimistic<Like[]>(
     post.likes,
     // @ts-ignore
